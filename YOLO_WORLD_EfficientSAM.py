@@ -11,7 +11,7 @@ from inference.models import YOLOWorld
 from .utils.efficient_sam import load, inference_with_boxes
 from .utils.video import generate_file_name, calculate_end_frame_index, create_directory
 
-current_directory = os.path.dirname(os.path.abspath(__file__))
+current_directory = folder_paths.models_dir
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 BOUNDING_BOX_ANNOTATOR = sv.BoundingBoxAnnotator()
@@ -90,10 +90,13 @@ class ESAM_ModelLoader_Zho:
     CATEGORY = "🔎YOLOWORLD_ESAM"
   
     def load_esam_model(self, device):
+
+        esam_path = os.path.join(current_directory, "esam")
+
         if device == "CUDA":
-            model_path = os.path.join(current_directory, "efficient_sam_s_gpu.jit")
+            model_path = os.path.join(esam_path, "efficient_sam_s_gpu.jit")
         else:
-            model_path = os.path.join(current_directory, "efficient_sam_s_cpu.jit")
+            model_path = os.path.join(esam_path, "efficient_sam_s_cpu.jit")
             
         EFFICIENT_SAM_MODEL = torch.jit.load(model_path)
 
